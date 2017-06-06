@@ -1,0 +1,42 @@
+version: '3'
+
+services:
+
+  redmine:
+    image: redmine
+    ports:
+      - 80:3000
+    environment:
+      REDMINE_DB_MYSQL: database
+      REDMINE_DB_PASSWORD: secret
+    volumes:
+      - plugins:/usr/src/redmine/plugins
+      - files:/usr/src/redmine/files
+      - ./wait-for-plugins.sh:/wait-for-plugins:ro
+    entrypoint: /wait-for-plugins
+    command: ["rails", "server", "-b", "0.0.0.0"]
+    depends_on:
+      - database
+    restart: always
+
+  database:
+    image: mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: redmine
+    volumes:
+      - data-volume:/var/lib/mysql
+    restart: always
+
+  tool:
+    build: .
+    volumes:
+      - plugins:/redmine/plugins
+      - files:/redmine/files
+      - ./install-plugins.sh:/install-plugins:ro
+    command: /install-plugins
+
+volumes:
+  data-volume:
+  files:
+  plugins:
