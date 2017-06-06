@@ -1,0 +1,129 @@
+Description: AWS CloudFormation sample template for deploying Redmine with plugins
+Parameters:
+  KeyName:
+    Description: EC2 key pair name
+    Type: String
+  InstanceType:
+    Description: EC2 instance type of the server
+    Type: String
+    Default: t2.micro
+
+Mappings:
+  UbuntuAMIs:
+    sa-east-1: { hvmssd: ami-a1a6c4cd }
+    eu-west-1: { hvmssd: ami-b4a79dd2 }
+    ap-south-1: { hvmssd: ami-27fe8d48 }
+    us-east-2: { hvmssd: ami-e086a285 }
+    us-west-2: { hvmssd: ami-74871414 }
+    us-east-1: { hvmssd: ami-a025aeb6 }
+    ca-central-1: { hvmssd: ami-a6e35fc2 }
+    eu-central-1: { hvmssd: ami-c3c113ac }
+    ap-southeast-1: { hvmssd: ami-2b0fb148 }
+    ap-southeast-2: { hvmssd: ami-44b5bb27 }
+    ap-northeast-1: { hvmssd: ami-379fbd50 }
+    ap-northeast-2: { hvmssd: ami-00f0226e }
+    eu-west-2: { hvmssd: ami-de2a3eba }
+    us-west-1: { hvmssd: ami-730c2913 }
+
+Resources:
+  RedmineSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: RedmineSecurity
+      GroupDescription: Allow access to redmine
+      SecurityGroupIngress:
+        - { CidrIp: 0.0.0.0/0, FromPort: -1, ToPort: -1, IpProtocol: icmp }
+        - { CidrIp: 0.0.0.0/0, FromPort: 22, ToPort: 22, IpProtocol: tcp }
+        - { CidrIp: 0.0.0.0/0, FromPort: 80, ToPort: 80, IpProtocol: tcp }
+
+  Redmine:
+    Type: AWS::EC2::Instance
+    Metadata:
+      AWS::CloudFormation::Init:
+        configSets:
+          Install: [ setup, install ]
+        setup:
+          commands:
+            aptup:
+              command: apt update
+        install:
+          packages:
+            apt:
+              docker-compose: []
+              docker.io: []
+          files:
+            /etc/systemd/system/redmine.service:
+              content: |
+                [Unit]
+                Description=Redmine
+                [Service]
+                ExecStartPre=/bin/bash -c 'curl -L https://github.com/guss77/redmine-compose/archive/master.tar.gz | tar -C /usr/share -zx --xform=s,redmine-compose-master,docker-redmine,'
+                ExecStart=/usr/bin/docker-compose -p redmine -f /usr/share/docker-redmine/docker-compose.yml up
+                ExecReload=/usr/bin/docker-compose -p redmine -f /usr/share/docker-redmine/docker-compose.yml pull
+                ExecReload=/usr/bin/docker-compose -p redmine -f /usr/share/docker-redmine/docker-compose.yml restart
+                Restart=on-failure
+                KillSignal=SIGINT
+                KillMode=process
+                [Install]
+                WantedBy=multi-user.target
+              mode: "000644"
+              owner: root
+              group: root
+          commands:
+            reload:
+              command: /bin/systemctl daemon-reload
+            enable:
+              command: /bin/systemctl enable redmine.service
+            start:
+              command: /bin/systemctl start redmine.service
+    Properties:
+      ImageId: !FindInMap [ UbuntuAMIs, { Ref: "AWS::Region" }, hvmssd ]
+      InstanceType: !Ref InstanceType
+      SecurityGroups:
+       - Ref: RedmineSecurityGroup
+      KeyName: !Ref KeyName
+      UserData:
+        Fn::Base64:
+          Fn::Join:
+           - ""
+           - - "#!/bin/bash -xe\n"
+             - "apt install -y python-setuptools\n"
+             - "easy_install https://s3.amazonaws.com/cloudformation-examples/aws-cfn-bootstrap-latest.tar.gz\n"
+             - "cfn-init -v --stack "
+             - Ref: AWS::StackName
+             - " --resource Redmine --configsets Install --region "
+             - Ref: AWS::Region
+             - "\n"
+
+  RedmineLoadBalancer:
+    Type: AWS::ElasticLoadBalancing::LoadBalancer
+    Properties:
+      HealthCheck:
+        Interval: 30
+        Timeout: 5
+        Target: HTTP:80/
+        HealthyThreshold: 2
+        UnhealthyThreshold: 2
+      Instances:
+        - Ref: Redmine
+      LoadBalancerName: redmine
+      AvailabilityZones:
+        - Fn::GetAtt: [ Redmine, AvailabilityZone ]
+      Listeners:
+        - { InstancePort: 80, InstanceProtocol: http, LoadBalancerPort: 80, Protocol: http }
+      SecurityGroups:
+        - Fn::GetAtt: [ RedmineSecurityGroup, GroupId ]
+
+Outputs:
+  ServerAddress:
+    Description: The DNS address of the Redmine server
+    Value:
+      Fn::GetAtt: [ Redmine, PublicDnsName]
+    Export:
+      Name: !Sub "${AWS::StackName}-host"
+  LoadBalancerAddress:
+    Description: The DNS address of the Redmine load balancer
+    Value:
+      Fn::GetAtt: [ RedmineLoadBalancer, DNSName ]
+    Export:
+      Name: !Sub "${AWS::StackName}-loadbalancer"
