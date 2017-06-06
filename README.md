@@ -28,3 +28,10 @@ A new wrapper script is set up as the Redmine entry-point, which waits for the "
 the original entry-point. At which point the standard Redmine initialization takes place and can register the installed
 plugins.
   
+## Usage
+
+1. Update the `install-plugins.sh` file to install the plugins that you need. The current script installs 
+`redmine_omniauth_google` as an example (and also because its useful for my use case.
+1. If more dependancies are needed for the plugin insallation, update the Dockerfile with the new dependencies.
+1. Run `docker-compose up`.
+1. Wait for the services to finish initialization.
