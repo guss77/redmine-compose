@@ -35,6 +35,7 @@ Resources:
         - { CidrIp: 0.0.0.0/0, FromPort: -1, ToPort: -1, IpProtocol: icmp }
         - { CidrIp: 0.0.0.0/0, FromPort: 22, ToPort: 22, IpProtocol: tcp }
         - { CidrIp: 0.0.0.0/0, FromPort: 80, ToPort: 80, IpProtocol: tcp }
+        - { CidrIp: 0.0.0.0/0, FromPort: 443, ToPort: 443, IpProtocol: tcp }
 
   Redmine:
     Type: AWS::EC2::Instance
@@ -101,7 +102,7 @@ Resources:
       HealthCheck:
         Interval: 30
         Timeout: 5
-        Target: HTTP:80/
+        Target: HTTP:80/login
         HealthyThreshold: 2
         UnhealthyThreshold: 2
       Instances:
