@@ -9,4 +9,10 @@ cd /redmine/plugins
 	bundle
 )
 
+[ -d "redmine_git_remote" ] || (
+	git clone https://github.com/dergachev/redmine_git_remote
+	mkdir redmine_git_remote/repos
+	chown redmine:redmine redmine_git_remote/repos
+)
+
 touch /redmine/files/plugins-are-ready
