@@ -2,7 +2,7 @@ FROM ubuntu
 
 RUN apt update && \
 	apt install -qy \
-		curl \
+		curl git \
 		ruby-dev ruby-bundler \
 		make gcc \
 	&& \
