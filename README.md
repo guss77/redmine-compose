@@ -35,3 +35,27 @@ plugins.
 1. If more dependancies are needed for the plugin insallation, update the Dockerfile with the new dependencies.
 1. Run `docker-compose up`.
 1. Wait for the services to finish initialization.
+
+## Deploy on AWS
+
+Also available is a sample CloudFormation template that you can deploy with minimal effort on an AWS account.
+
+The defaults are pretty useful and will start a "free tier eligable" EC2 instance and load balancer. I use
+a load balancer because its easy to add Route53 aliases and SSL certificates to the service if you use a
+load balancer. Otherwise this template does not assign a DNS name (though it is highly recommended) or an
+SSL certificate (which is also highly recommended and you can easily get one for free from Amazon).
+
+To deploy the CloudFormation template:
+
+1. Create an EC2 key pair
+2. Create a new stack and upload the template to the new stack, using the created key in the required parameter.
+
+The process can be run from the command line using the AWS CLI tool and the 
+[cloudformation-tool Ruby gem](https://rubygems.org/gems/cloudformation-tool):
+
+```
+aws --region eu-west-1 ec2 create-key-pair --key-name redmine | jq .KeyMaterial -cr > ~/.ssh/redmine.pem
+cftool -r eu-west-1 create -p KeyName=webhost1 cloud-formation.yaml redmine
+```
+
+The `cftool` command will output the host name for the redmine server and the load balancer.
