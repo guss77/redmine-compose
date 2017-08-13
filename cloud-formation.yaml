@@ -13,6 +13,9 @@ Parameters:
   SESPassword:
     Description: The SES SMTP password to use for outgoing email
     Type: String
+  EmailDomain:
+    Description: The domain name from which redmine will send email
+    Type: String
 
 Mappings:
   UbuntuAMIs:
@@ -68,6 +71,7 @@ Resources:
                 EnvironmentFile=-/etc/default/redmine-configuration
                 ExecStartPre=/bin/bash -c 'echo "SMTP_SERVER=$(curl http://169.254.169.254/latest/meta-data/local-ipv4)" > /etc/default/redmine-configuration'
                 ExecStartPre=/bin/bash -c 'curl -L https://github.com/guss77/redmine-compose/archive/master.tar.gz | tar -C /usr/share -zx --xform=s,redmine-compose-master,docker-redmine,'
+                ExecStartPre=/bin/bash -c '/usr/bin/perl -pi -e "s/example.com/$(cat /etc/default/redmine-domain)/" /usr/share/docker-redmine/configuration.yml'
                 ExecStart=/usr/bin/docker-compose -p redmine -f /usr/share/docker-redmine/docker-compose.yml up
                 ExecReload=/usr/bin/docker-compose -p redmine -f /usr/share/docker-redmine/docker-compose.yml pull
                 ExecReload=/usr/bin/docker-compose -p redmine -f /usr/share/docker-redmine/docker-compose.yml restart
@@ -85,6 +89,9 @@ Resources:
                 Fn::Join:
                   - ""
                   - [ "[email-smtp.eu-west-1.amazonaws.com]:25 ", !Ref SESUsername, ":", !Ref SESPassword ]
+            /etc/default/redmine-domain:
+              content:
+                Ref: EmailDomain
           commands:
             reload:
               command: /bin/systemctl daemon-reload
