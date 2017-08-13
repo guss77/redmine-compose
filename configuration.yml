@@ -1,0 +1,7 @@
+default:
+  email_delivery:
+    delivery_method: :smtp
+    smtp_settings:
+      address: smtpserver
+      port: 25
+      domain: example.com
