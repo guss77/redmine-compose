@@ -7,6 +7,12 @@ Parameters:
     Description: EC2 instance type of the server
     Type: String
     Default: t2.micro
+  SESUsername:
+    Description: The SES SMTP user name to use for outgoing email
+    Type: String
+  SESPassword:
+    Description: The SES SMTP password to use for outgoing email
+    Type: String
 
 Mappings:
   UbuntuAMIs:
@@ -71,6 +77,11 @@ Resources:
               mode: "000644"
               owner: root
               group: root
+            /etc/postfix/sasl_passwd:
+              content:
+                Fn::Join:
+                  - ""
+                  - [ "[email-smtp.eu-west-1.amazonaws.com]:25 ", !Ref SESUsername, ":", !Ref SESPassword ]
           commands:
             reload:
               command: /bin/systemctl daemon-reload
@@ -79,7 +90,19 @@ Resources:
             start:
               command: /bin/systemctl start redmine.service
             postfix:
-              command: postconf -e "mynetworks=127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128 172.16.0.0/12"
+              command: >
+                postconf -e "mynetworks=127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128 172.16.0.0/12"
+                            "relayhost=[email-smtp.us-west-2.amazonaws.com]:25"
+                            "smtp_sasl_auth_enable=yes"
+                            "smtp_sasl_security_options=noanonymous"
+                            "smtp_sasl_password_maps=hash:/etc/postfix/sasl_passwd"
+                            "smtp_use_tls=yes"
+                            "smtp_tls_security_level=encrypt"
+                            "smtp_tls_note_starttls_offer=yes"
+                            "smtp_tls_CAfile=/etc/ssl/certs/ca-certificates.crt"
+            postfix-ses-cred:
+              command: postmap hash:/etc/postfix/sasl_passwd
+
     Properties:
       ImageId: !FindInMap [ UbuntuAMIs, { Ref: "AWS::Region" }, hvmssd ]
       InstanceType: !Ref InstanceType
