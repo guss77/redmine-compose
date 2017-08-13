@@ -69,6 +69,7 @@ Resources:
                 ExecStart=/usr/bin/docker-compose -p redmine -f /usr/share/docker-redmine/docker-compose.yml up
                 ExecReload=/usr/bin/docker-compose -p redmine -f /usr/share/docker-redmine/docker-compose.yml pull
                 ExecReload=/usr/bin/docker-compose -p redmine -f /usr/share/docker-redmine/docker-compose.yml restart
+                ExecStop=/usr/bin/docker-compose -p redmine -f /usr/share/docker-redmine/docker-compose.yml down
                 Restart=on-failure
                 KillSignal=SIGINT
                 KillMode=process
