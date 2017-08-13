@@ -16,7 +16,7 @@ cd /redmine/plugins
 install_from_github twinslash/redmine_omniauth_google yes
 
 install_from_github dergachev/redmine_git_remote
-mkdir redmine_git_remote/repos
+mkdir -p redmine_git_remote/repos
 chown redmine:redmine redmine_git_remote/repos
 
 install_from_github woblavobla/redmine_changeauthor
