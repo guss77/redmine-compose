@@ -2,6 +2,7 @@ default:
   email_delivery:
     delivery_method: :smtp
     smtp_settings:
+      enable_starttls_auto: false
       address: smtpserver
       port: 25
       domain: example.com
