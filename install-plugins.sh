@@ -17,7 +17,7 @@ install_from_github twinslash/redmine_omniauth_google yes
 
 install_from_github dergachev/redmine_git_remote
 mkdir -p redmine_git_remote/repos
-chown redmine:redmine redmine_git_remote/repos
+chown 999:999 redmine_git_remote/repos
 
 install_from_github woblavobla/redmine_changeauthor
 
