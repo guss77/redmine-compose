@@ -79,7 +79,7 @@ Resources:
             start:
               command: /bin/systemctl start redmine.service
             postfix:
-              command: postconf -e "mynetworks=127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128 172.16.0.0/11"
+              command: postconf -e "mynetworks=127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128 172.16.0.0/12"
     Properties:
       ImageId: !FindInMap [ UbuntuAMIs, { Ref: "AWS::Region" }, hvmssd ]
       InstanceType: !Ref InstanceType
