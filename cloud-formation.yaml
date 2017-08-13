@@ -65,7 +65,7 @@ Resources:
                 [Unit]
                 Description=Redmine
                 [Service]
-                EnvironmentFile=/etc/default/redmine-configuration
+                EnvironmentFile=-/etc/default/redmine-configuration
                 ExecStartPre=/bin/bash -c 'echo "SMTP_SERVER=$(curl http://169.254.169.254/latest/meta-data/local-ipv4)" > /etc/default/redmine-configuration'
                 ExecStartPre=/bin/bash -c 'curl -L https://github.com/guss77/redmine-compose/archive/master.tar.gz | tar -C /usr/share -zx --xform=s,redmine-compose-master,docker-redmine,'
                 ExecStart=/usr/bin/docker-compose -p redmine -f /usr/share/docker-redmine/docker-compose.yml up
