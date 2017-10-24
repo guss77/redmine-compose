@@ -21,4 +21,6 @@ chown 999:999 redmine_git_remote/repos
 
 install_from_github woblavobla/redmine_changeauthor
 
+install_from_github two-pack/redmine_auto_assign_group
+
 touch /redmine/files/plugins-are-ready
