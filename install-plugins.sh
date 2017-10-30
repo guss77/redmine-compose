@@ -23,4 +23,6 @@ install_from_github woblavobla/redmine_changeauthor
 
 install_from_github two-pack/redmine_auto_assign_group
 
+install_from_github haru/redmine_code_review
+
 touch /redmine/files/plugins-are-ready
