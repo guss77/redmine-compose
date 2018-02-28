@@ -2,6 +2,17 @@ version: '2'
 
 services:
 
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    ports:
+      - "80:80"
+    environment:
+      ENABLE_IPV6: "true"
+      DEFAULT_HOST: redmine
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./proxy.conf:/etc/nginx/proxy.conf:ro
+
   redmine:
     image: redmine
     ports:
@@ -9,6 +20,7 @@ services:
     environment:
       REDMINE_DB_MYSQL: database
       REDMINE_DB_PASSWORD: secret
+      VIRTUAL_HOST: redmine
     volumes:
       - plugins:/usr/src/redmine/plugins
       - files:/usr/src/redmine/files
