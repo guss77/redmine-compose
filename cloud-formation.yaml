@@ -16,6 +16,14 @@ Parameters:
   EmailDomain:
     Description: The domain name from which redmine will send email
     Type: String
+  UseLoadBalancer:
+    Description: Whether to use a load balancer or deploy an internal reverse proxy. This is mostly related to SSL configuration.
+    Type: String
+    Default: yes
+
+Conditions: 
+  EnableELB: !Equals [ !Ref UseLoadBalancer, yes ]
+  DisableELB: !Not [ !Equals [ !Ref UseLoadBalancer, yes ] ]
 
 Mappings:
   UbuntuAMIs:
@@ -179,6 +187,7 @@ Resources:
 
   RedmineLoadBalancer:
     Type: AWS::ElasticLoadBalancing::LoadBalancer
+    Condition: EnableELB
     Properties:
       HealthCheck:
         Interval: 30
@@ -204,6 +213,7 @@ Outputs:
     Export:
       Name: !Sub "${AWS::StackName}-host"
   LoadBalancerAddress:
+    Condition: EnableELB
     Description: The DNS address of the Redmine load balancer
     Value:
       Fn::GetAtt: [ RedmineLoadBalancer, DNSName ]
