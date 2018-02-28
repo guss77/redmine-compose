@@ -12,4 +12,6 @@ for dir in /usr/src/redmine/plugins/*; do
         (cd "$dir"; bundle)
 done
 
+gosu redmine rake redmine:plugins RAILS_ENV=production
+
 exec /docker-entrypoint.sh "$@"
