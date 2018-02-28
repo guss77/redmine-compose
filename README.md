@@ -63,7 +63,7 @@ To deploy the CloudFormation template:
 To setup Redmine to send and receive emails through Amazon Simple Email Service, follow the following steps:
 
 1. Go to the Simple Email Service console.
-2. Under "Domains" verify a new domain, and follow the on-screen instructions. You'd need access to an internet domain and to the DNS server for that domain.
+2. Under "Domains" click "Verify a new domain", and follow the on-screen instructions. You'd need access to an internet domain and to the DNS server for that domain.
 3. Under "SMTP Settings" click "Create My SMTP Credentials".
 4. You will be moved to the IAM console where you'd need to specify a user name (or accept the default one), then click "Create".
 5. You will then be shown yuor "SMTP Security Credentials". Copy the "SMTP Username" and "SMTP password" and save them somewhere safe.
