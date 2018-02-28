@@ -48,7 +48,27 @@ SSL certificate (which is also highly recommended and you can easily get one for
 To deploy the CloudFormation template:
 
 1. Create an EC2 key pair
-2. Create a new stack and upload the template to the new stack, using the created key in the required parameter.
+2. Create Simple Email Service SMTP Credentials (see AWS Email Delivery below)
+3. Log in to the AWS CloudFormation console
+4. Click "Create Stack" to create a new stack.
+5. Name the new stack
+5. Click "Choose File" and load the `cloud-formation.yaml` from this repository.
+7. Click "Next"
+8. In the parameters page, fill in the email domain you want Redmine to send emails from, the SES username and password, and the name of the EC2 key pair you created in step 1.
+9. Click "Next" and then "Next" again, then "Create".
+10. Wait until the stack finishes creating, then select the stack in the stacks list and click "Outputs". Copy the value of the `LoadBalancerAddress` and use that to access Redmine.
+
+### AWS Email Delivery
+
+To setup Redmine to send and receive emails through Amazon Simple Email Service, follow the following steps:
+
+1. Go to the Simple Email Service console.
+2. Under "Domains" verify a new domain, and follow the on-screen instructions. You'd need access to an internet domain and to the DNS server for that domain.
+3. Under "SMTP Settings" click "Create My SMTP Credentials".
+4. You will be moved to the IAM console where you'd need to specify a user name (or accept the default one), then click "Create".
+5. You will then be shown yuor "SMTP Security Credentials". Copy the "SMTP Username" and "SMTP password" and save them somewhere safe.
+
+### Automated Deployment
 
 The process can be run from the command line using the AWS CLI tool and the 
 [cloudformation-tool Ruby gem](https://rubygems.org/gems/cloudformation-tool):
