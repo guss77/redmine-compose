@@ -19,7 +19,6 @@ Parameters:
 
 Mappings:
   UbuntuAMIs:
-UbuntuRegionImages:
     us-gov-west-1:
       precise: ami-48008529
       xenial: ami-67880306
@@ -84,7 +83,7 @@ Resources:
   RedmineSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupName: RedmineSecurity
+      GroupName: !Sub "RedmineSecurity-${AWS::StackName}"
       GroupDescription: Allow access to redmine
       SecurityGroupIngress:
         - { CidrIp: 0.0.0.0/0, FromPort: -1, ToPort: -1, IpProtocol: icmp }
@@ -132,9 +131,8 @@ Resources:
               group: root
             /etc/postfix/sasl_passwd:
               content:
-                Fn::Join:
-                  - ""
-                  - [ "[email-smtp.eu-west-1.amazonaws.com]:25 ", !Ref SESUsername, ":", !Ref SESPassword ]
+                Fn::Sub: >
+                  [email-smtp.${AWS::Region}.amazonaws.com]:25 ${SESUsername}:${SESPassword}
             /etc/default/redmine-domain:
               content:
                 Ref: EmailDomain
@@ -146,15 +144,16 @@ Resources:
             start:
               command: /bin/systemctl start redmine.service
             postfix:
-              command: >
-                postconf -e "mynetworks=127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128 172.16.0.0/12"
-                            "relayhost=[email-smtp.us-west-2.amazonaws.com]:25"
-                            "smtp_sasl_auth_enable=yes"
-                            "smtp_sasl_security_options=noanonymous"
-                            "smtp_sasl_password_maps=hash:/etc/postfix/sasl_passwd"
-                            "smtp_use_tls=yes"
-                            "smtp_tls_security_level=encrypt"
-                            "smtp_tls_note_starttls_offer=yes"
+              command:
+                Fn::Sub: >
+                  postconf -e "mynetworks=127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128 172.16.0.0/12" \
+                            "relayhost=[email-smtp.${AWS::Region}.amazonaws.com]:25" \
+                            "smtp_sasl_auth_enable=yes" \
+                            "smtp_sasl_security_options=noanonymous" \
+                            "smtp_sasl_password_maps=hash:/etc/postfix/sasl_passwd" \
+                            "smtp_use_tls=yes" \
+                            "smtp_tls_security_level=encrypt" \
+                            "smtp_tls_note_starttls_offer=yes" \
                             "smtp_tls_CAfile=/etc/ssl/certs/ca-certificates.crt"
             postfix-ses-cred:
               command: postmap hash:/etc/postfix/sasl_passwd
