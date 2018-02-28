@@ -75,7 +75,7 @@ The process can be run from the command line using the AWS CLI tool and the
 
 ```
 aws --region eu-west-1 ec2 create-key-pair --key-name redmine | jq .KeyMaterial -cr > ~/.ssh/redmine.pem
-cftool -r eu-west-1 create -p KeyName=webhost1 cloud-formation.yaml redmine
+cftool -r eu-west-1 create -p KeyName=remine cloud-formation.yaml redmine
 ```
 
 The `cftool` command will output the host name for the redmine server and the load balancer.
