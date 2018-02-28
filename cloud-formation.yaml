@@ -19,20 +19,66 @@ Parameters:
 
 Mappings:
   UbuntuAMIs:
-    sa-east-1: { hvmssd: ami-a1a6c4cd }
-    eu-west-1: { hvmssd: ami-b4a79dd2 }
-    ap-south-1: { hvmssd: ami-27fe8d48 }
-    us-east-2: { hvmssd: ami-e086a285 }
-    us-west-2: { hvmssd: ami-74871414 }
-    us-east-1: { hvmssd: ami-a025aeb6 }
-    ca-central-1: { hvmssd: ami-a6e35fc2 }
-    eu-central-1: { hvmssd: ami-c3c113ac }
-    ap-southeast-1: { hvmssd: ami-2b0fb148 }
-    ap-southeast-2: { hvmssd: ami-44b5bb27 }
-    ap-northeast-1: { hvmssd: ami-379fbd50 }
-    ap-northeast-2: { hvmssd: ami-00f0226e }
-    eu-west-2: { hvmssd: ami-de2a3eba }
-    us-west-1: { hvmssd: ami-730c2913 }
+UbuntuRegionImages:
+    us-gov-west-1:
+      precise: ami-48008529
+      xenial: ami-67880306
+      trusty: ami-40870c21
+    ap-northeast-1:
+      precise: ami-411b2d26
+      xenial: ami-06d9a360
+      trusty: ami-8781fbe1
+    ap-southeast-1:
+      precise: ami-0050ea63
+      xenial: ami-c52b62b9
+      trusty: ami-a0f1bfdc
+    ap-southeast-2:
+      precise: ami-3e171c5d
+      xenial: ami-4ef83f2c
+      trusty: ami-a4e225c6
+    eu-central-1:
+      precise: ami-9814cbf7
+      xenial: ami-4d6c0e22
+      trusty: ami-b8187ad7
+    eu-west-1:
+      precise: ami-d80f02be
+      xenial: ami-cc166eb5
+      trusty: ami-39dca540
+    sa-east-1:
+      precise: ami-f7acc09b
+      xenial: ami-9188c0fd
+      trusty: ami-5071393c
+    us-east-1:
+      precise: ami-a04529b6
+      xenial: ami-ee4eac93
+      trusty: ami-9ac624e7
+    us-west-1:
+      precise: ami-aeb99ece
+      xenial: ami-9abbb3fa
+      trusty: ami-2faba34f
+    us-west-2:
+      precise: ami-270f9747
+      xenial: ami-0ee66876
+      trusty: ami-2133bc59
+    cn-north-1:
+      precise: ami-a23bedcf
+      trusty: ami-0b508d66
+      xenial: ami-cc4499a1
+    cn-northwest-1:
+      trusty: ami-41130723
+      xenial: ami-fd0e1a9f
+    ap-south-1:
+      xenial: ami-5383df3c
+    eu-west-2:
+      xenial: ami-30c22657
+    ca-central-1:
+      xenial: ami-11da5d75
+    ap-northeast-2:
+      xenial: ami-daaf02b4
+    us-east-2:
+      xenial: ami-b84c7bdd
+    eu-west-3:
+      xenial: ami-6775c31a
 
 Resources:
   RedmineSecurityGroup:
@@ -114,7 +160,7 @@ Resources:
               command: postmap hash:/etc/postfix/sasl_passwd
 
     Properties:
-      ImageId: !FindInMap [ UbuntuAMIs, { Ref: "AWS::Region" }, hvmssd ]
+      ImageId: !FindInMap [ UbuntuAMIs, { Ref: "AWS::Region" }, xenial ]
       InstanceType: !Ref InstanceType
       SecurityGroups:
        - Ref: RedmineSecurityGroup
