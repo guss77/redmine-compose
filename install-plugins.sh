@@ -8,6 +8,7 @@ function install_from_github() {
 		curl -L https://api.github.com/repos/"$repo"/tarball | tar -zx --xform="s,$username-$reponame-[[:alnum:]]*,$reponame,"
 		cd "$reponame"
 		[ -n "$bundler" ] && rm -f Gemfile.lock && bundle
+		exit 0
 	)
 }
 
