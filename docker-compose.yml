@@ -5,7 +5,7 @@ services:
   nginx-proxy:
     image: jwilder/nginx-proxy
     ports:
-      - "80:80"
+      - "81:80"
     environment:
       ENABLE_IPV6: "true"
       DEFAULT_HOST: redmine
@@ -26,6 +26,7 @@ services:
       - files:/usr/src/redmine/files
       - ./wait-for-plugins.sh:/wait-for-plugins:ro
       - ./configuration.yml:/usr/src/redmine/config/configuration.yml
+      - /var/log/redmine/:/usr/src/redmine/log/
     extra_hosts:
       - "smtpserver:${SMTP_SERVER}"
     entrypoint: /wait-for-plugins
