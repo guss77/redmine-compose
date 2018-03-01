@@ -25,6 +25,7 @@ services:
       - plugins:/usr/src/redmine/plugins
       - files:/usr/src/redmine/files
       - ./wait-for-plugins.sh:/wait-for-plugins:ro
+      - ./finish-setup.sh:/finish-setup:ro
       - ./configuration.yml:/usr/src/redmine/config/configuration.yml
       - /var/log/redmine/:/usr/src/redmine/log/
     extra_hosts:
