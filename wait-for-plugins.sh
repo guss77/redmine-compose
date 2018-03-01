@@ -13,4 +13,11 @@ for dir in /usr/src/redmine/plugins/*; do
 done
 
 
-exec /docker-entrypoint.sh /finish-setup "$@"
+/docker-entrypoint.sh "$@" &
+
+sleep 20 # wait for entrypoint to setup the database
+# run plugin migrations
+gosu redmine rake redmine:plugins RAILS_ENV=production
+
+wait # wait for rails to finish
+
