@@ -12,6 +12,7 @@ for dir in /usr/src/redmine/plugins/*; do
         (cd "$dir"; bundle)
 done
 
+(cd /home/redmine; bundle install)
 
 /docker-entrypoint.sh "$@" &
 
