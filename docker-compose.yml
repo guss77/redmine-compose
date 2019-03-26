@@ -14,7 +14,7 @@ services:
       - ./proxy.conf:/etc/nginx/proxy.conf:ro
 
   redmine:
-    image: redmine
+    image: redmine:3
     ports:
       - 80:3000
     environment:
