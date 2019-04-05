@@ -3,7 +3,7 @@
 function install_from_github() {
 	local repo="$1" bundler="$2"
 	read username reponame <<<"${repo/\// }"
-	[ -d "$reponame" ] && return 0
+	[ -d "$reponame" ] && rm -rf $reponame
 	(
 		curl -L https://api.github.com/repos/"$repo"/tarball | tar -zx --xform="s,$username-$reponame-[[:alnum:]]*,$reponame,"
 		cd "$reponame"
@@ -14,7 +14,7 @@ function install_from_github() {
 
 cd /redmine/plugins
 
-install_from_github twinslash/redmine_omniauth_google yes
+install_from_github skokhanovskiy/redmine_omniauth_google yes
 
 install_from_github dergachev/redmine_git_remote
 mkdir -p redmine_git_remote/repos
