@@ -5,6 +5,7 @@ while ! [ -f "/usr/src/redmine/files/plugins-are-ready" ]; do
 	sleep 1
 done
 
+sed -i 's,http://deb.debian.org/debian,http://cloudfront.debian.net/debian,' /etc/apt/sources.list
 while ! apt-get update; do sleep 5; done
 apt-get install -qy make gcc
 
