@@ -9,10 +9,12 @@ apt-get update && apt-get install -qy make gcc
 
 for dir in /usr/src/redmine/plugins/*; do
         [ -d "$dir" ] || continue
-        (cd "$dir"; bundle)
+        (cd "$dir"; bundle install)
 done
 
-(cd /home/redmine; bundle install)
+chown redmine:redmine /home/redmine -R
+
+(cd /usr/src/redmine; bundle install)
 
 /docker-entrypoint.sh "$@" &
 
