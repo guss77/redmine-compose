@@ -27,65 +27,103 @@ Conditions:
 
 Mappings:
   UbuntuAMIs:
-    us-gov-west-1:
-      precise: ami-48008529
-      xenial: ami-67880306
-      trusty: ami-40870c21
+    ap-east-1:
+      bionic: ami-fbda9d8a
+      xenial: ami-5cdb9c2d
     ap-northeast-1:
+      bionic: ami-0de29b9d8111fcc56
       precise: ami-411b2d26
-      xenial: ami-06d9a360
-      trusty: ami-8781fbe1
-    ap-southeast-1:
-      precise: ami-0050ea63
-      xenial: ami-c52b62b9
-      trusty: ami-a0f1bfdc
-    ap-southeast-2:
-      precise: ami-3e171c5d
-      xenial: ami-4ef83f2c
-      trusty: ami-a4e225c6
-    eu-central-1:
-      precise: ami-9814cbf7
-      xenial: ami-4d6c0e22
-      trusty: ami-b8187ad7
-    eu-west-1:
-      precise: ami-d80f02be
-      xenial: ami-cc166eb5
-      trusty: ami-39dca540
-    sa-east-1:
-      precise: ami-f7acc09b
-      xenial: ami-9188c0fd
-      trusty: ami-5071393c
-    us-east-1:
-      precise: ami-a04529b6
-      xenial: ami-ee4eac93
-      trusty: ami-9ac624e7
-    us-west-1:
-      precise: ami-aeb99ece
-      xenial: ami-9abbb3fa
-      trusty: ami-2faba34f
-    us-west-2:
-      precise: ami-270f9747
-      xenial: ami-0ee66876
-      trusty: ami-2133bc59
-    cn-north-1:
-      precise: ami-a23bedcf
-      trusty: ami-0b508d66
-      xenial: ami-cc4499a1
-    cn-northwest-1:
-      trusty: ami-41130723
-      xenial: ami-fd0e1a9f
-    ap-south-1:
-      xenial: ami-5383df3c
-    eu-west-2:
-      xenial: ami-30c22657
-    ca-central-1:
-      xenial: ami-11da5d75
+      trusty: ami-0cf54a87bffe628d2
+      xenial: ami-003c6ed5c5176db19
     ap-northeast-2:
-      xenial: ami-daaf02b4
-    us-east-2:
-      xenial: ami-b84c7bdd
+      bionic: ami-0707190796b7c9938
+      trusty: ami-06014a6d5047caf51
+      xenial: ami-0582405a4f3bf27c9
+    ap-northeast-3:
+      bionic: ami-0eada2a34397f6238
+      trusty: ami-061b5946c275cf79b
+      xenial: ami-077284ebb02f61464
+    ap-south-1:
+      bionic: ami-029401c523b31769e
+      trusty: ami-0460ce78b2cf43489
+      xenial: ami-011c09ac5e09ba22f
+    ap-southeast-1:
+      bionic: ami-0ca54d8a9af037f5b
+      precise: ami-0050ea63
+      trusty: ami-0aa787af8cdd260f1
+      xenial: ami-0b21b3ea2cb8660a5
+    ap-southeast-2:
+      bionic: ami-07309b5bf62e17d28
+      precise: ami-3e171c5d
+      trusty: ami-0caee806a0c3782c4
+      xenial: ami-09d19bae4dbb07062
+    ca-central-1:
+      bionic: ami-07e313d04bd4c79d3
+      trusty: ami-0975224f6cbaca625
+      xenial: ami-02da4c4d67205fcc8
+    cn-north-1:
+      bionic: ami-01993b4213b4bffb5
+      precise: ami-a23bedcf
+    cn-northwest-1:
+      bionic: ami-01d4e30d4d4952d0f
+    eu-central-1:
+      bionic: ami-062477f37cf33785e
+      precise: ami-9814cbf7
+      trusty: ami-0e18ae6e39f4962f0
+      xenial: ami-0257508f40836e6cf
+    eu-north-1:
+      bionic: ami-014ad3ed48f7d8f6f
+      precise: ami-88b33df6
+      trusty: ami-0ef973845f826405f
+      xenial: ami-0eb04b36ce3c3b0ac
+    eu-west-1:
+      bionic: ami-06b59122bc25ba6dc
+      precise: ami-d80f02be
+      trusty: ami-005af4c3162f495fa
+      xenial: ami-01793b684af7a3e2c
+    eu-west-2:
+      bionic: ami-0ce847e39053291c5
+      trusty: ami-02e42a8490e212d0a
+      xenial: ami-014ae7e330e2651dc
     eu-west-3:
-      xenial: ami-6775c31a
+      bionic: ami-0eb59b2883c466ff5
+      trusty: ami-03c04206a3f98c5cd
+      xenial: ami-0a3fd389b49c645bf
+    me-south-1:
+      bionic: ami-0e5ed216244648a3d
+      xenial: ami-00df020967accef43
+    sa-east-1:
+      bionic: ami-0b78e14c9f8bb9cf7
+      precise: ami-f7acc09b
+      trusty: ami-0b42a18b2c9c5ba83
+      xenial: ami-017555a9eb5076e5f
+    us-east-1:
+      bionic: ami-055df5de4f42cf331
+      precise: ami-a04529b6
+      trusty: ami-000b3a073fc20e415
+      xenial: ami-04ac550b78324f651
+    us-east-2:
+      bionic: ami-077cf8407f0b2025c
+      trusty: ami-032eae14ebea64f91
+      xenial: ami-0009e532719fe9bff
+    us-gov-east-1:
+      bionic: ami-39789548
+      precise: ami-d7a640a6
+      xenial: ami-b57b96c4
+    us-gov-west-1:
+      bionic: ami-c5604aa4
+      precise: ami-48008529
+      xenial: ami-50624831
+    us-west-1:
+      bionic: ami-040b9bc6e3b5d78e1
+      precise: ami-aeb99ece
+      trusty: ami-0430743863c514c80
+      xenial: ami-0798ac7e2b0fb9e75
+    us-west-2:
+      bionic: ami-0756ed94dd77be215
+      precise: ami-270f9747
+      trusty: ami-0bac6fc47ad07c5f5
+      xenial: ami-02e30ba14d8ffa6e6
 
 Resources:
   RedmineSecurityGroup:
