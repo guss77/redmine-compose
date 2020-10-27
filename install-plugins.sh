@@ -28,4 +28,7 @@ install_from_github haru/redmine_code_review
 
 install_from_github speedy32129/time_logger
 
+[ -f /etc/redmine-compose/plugins ] && . /etc/redmine-compose/plugins
+[ -d /etc/redmine-compose/plugins.d ] && for file in /etc/redmine-compose/plugins.d/*; do . "$file"; done
+
 touch /redmine/files/plugins-are-ready
